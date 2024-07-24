@@ -3,10 +3,17 @@ import numpy as np
 import face_recognition as fr
 
 cap = cv.VideoCapture(0)
-image = fr.load_image_file('ibrobk1.png')
-image_encoding = fr.face_encodings(image)[0]
-known_face = [image_encoding]
-known_face_name = ["Ibrahim Bakori"]
+ibrahim_image = fr.load_image_file('ibrobk1.png')
+amina_image = fr.load_image_file('amina.png')
+
+
+ibrahim_encoding = fr.face_encodings(ibrahim_image)[0]
+amina_encoding = fr.face_encodings(amina_image)[0]
+
+known_face = [ibrahim_encoding, amina_encoding]
+known_face_name = ["Ibrahim Bakori", "Amina S. Abdul"]
+
+name = "Unknown Face"
 
 
 while True:
@@ -17,9 +24,9 @@ while True:
     face_encodings = fr.face_encodings(rgb_frame, face_locations)
     
     for(top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
-        matches = fr.compare_faces(known_face, face_encoding)
+        matches = fr.compare_faces(known_face, face_encoding, tolerance=0.45)
         
-        name = "Unknown Face"
+        
         
         face_distances = fr.face_distance(known_face, face_encoding)
         
